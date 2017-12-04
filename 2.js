@@ -1,17 +1,23 @@
 var fs = require("fs");
-var one = require("./");
+var two = require("./");
 
 fs.readFile("./inputs/2", function(err, data) {
   if (err) {
     throw err;
   }
 
-  var ips = data.toString().split("\n");
-  ips.pop();
+  var rawData = data.toString().split("\n");
+  var rows = [];
 
-  const sum1 = one.calculateSum1(ips);
-  const sum2 = one.calculateSum2(ips);
+  rawData.forEach(rawData => {
+    rows.push(rawData.split("\t").map(number => parseInt(number)));
+  });
 
-  console.log("The solution to the captcha (version 1) is ", sum1);
-  console.log("The solution to the captcha (version 2) is ", sum2);
+  rows.pop();
+
+  const sum1 = two.calculateChecksum1(rows);
+  const sum2 = two.calculateChecksum2(rows);
+
+  console.log("The checksum for the spreadsheet is ", sum1);
+  console.log("The sum of each row's result is ", sum2);
 });
